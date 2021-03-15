@@ -1,4 +1,6 @@
 
+# hosing https://towardsdatascience.com/deploying-flask-on-windows-b2839d8148fa
+
 # flask packages
 from flask import Flask, send_file
 from flask_restful import Resource, Api
@@ -15,6 +17,7 @@ import numpy as np
 # detector packages
 
 from mtcnn import MTCNN
+from waitress import serve
 
 app = Flask(__name__)
 CORS(app)
@@ -110,5 +113,10 @@ api.add_resource(Home, '/')
 api.add_resource(DetectFace, '/detect')
 api.add_resource(GenerateNoise, '/generate')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
+
+#error :OSError: [WinError 10013] 액세스 권한에 의해 숨겨진 소켓에 액세스를 시도했습니다
+#https://galid1.tistory.com/317
+
+serve(app, host='0.0.0.0', port=7777, threads=5)
